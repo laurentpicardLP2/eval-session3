@@ -1,6 +1,7 @@
 package starwars.starwarshibernate.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
 
 @Entity
 @Table(name = "Jedi")
@@ -36,16 +38,14 @@ public class Jedi implements Serializable{
 	private Set<Arme> armes = new HashSet<Arme>();
 	
 	public Jedi() {
-		super();
-	}
-	
+		
+	}	
 
-	public Jedi(String name, String firstname, Set<Arme> armes) {
+	public Jedi(String name, String firstname) {
 		this.name = name;
 		this.firstname = firstname;
-		this.armes = armes;
+		this.armes = new HashSet<Arme>();
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -77,6 +77,14 @@ public class Jedi implements Serializable{
 
 	public void setArmes(Set<Arme> armes) {
 		this.armes = armes;
+	}
+	
+	public boolean addArmes(Collection<Arme> newArmes) {
+		return this.armes.addAll(newArmes);
+	}
+	
+	public boolean addArme(Arme newArme) {
+		return this.armes.add(newArme);
 	}
 
 	@Override
@@ -119,6 +127,5 @@ public class Jedi implements Serializable{
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
-	}
-	
+	}	
 }
