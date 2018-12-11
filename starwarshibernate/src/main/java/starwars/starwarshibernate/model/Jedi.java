@@ -116,3 +116,8 @@ public class Jedi implements Serializable{
 	
 	
 }
+package starwars.starwarshibernate.model;
+
+public class Jedi {
+
+}
