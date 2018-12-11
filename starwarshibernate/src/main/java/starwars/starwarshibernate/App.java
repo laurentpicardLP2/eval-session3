@@ -1,6 +1,4 @@
 package starwars.starwarshibernate;
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,8 +12,11 @@ import starwars.starwarshibernate.repository.JediRepository;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
+	
     @Autowired
     private ArmeRepository armeRepository;
+    
+    @Autowired
     private JediRepository jediRepository;
 
     public static void main(String[] args)  {
@@ -29,13 +30,14 @@ public class App implements CommandLineRunner {
 
 
         Jedi jedi1 = new Jedi("Luc", "Skywalker");
-        jediRepository.save(jedi1);
+        
         
         Arme sabre = new Arme("sabre laser", 52, jedi1);
         
         jedi1.addArme(sabre);
-
-
+        
+        jediRepository.save(jedi1);
+        armeRepository.save(sabre);
     }
 
 }
