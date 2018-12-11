@@ -38,6 +38,14 @@ public class Jedi implements Serializable{
 	public Jedi() {
 		super();
 	}
+	
+
+	public Jedi(String name, String firstname, Set<Arme> armes) {
+		this.name = name;
+		this.firstname = firstname;
+		this.armes = armes;
+	}
+
 
 	public Integer getId() {
 		return id;
