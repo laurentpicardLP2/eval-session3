@@ -27,9 +27,11 @@ public class App implements CommandLineRunner {
     }
 
     public void run(String... args) throws Exception {
+    	
         // Clean up database tables
-        armeRepository.deleteAllInBatch();
+        armeRepository.deleteAllInBatch();;
         jediRepository.deleteAllInBatch();
+        
 
 
         Jedi luc = new Jedi("Luc", "Skywalker");
@@ -50,6 +52,7 @@ public class App implements CommandLineRunner {
         
         //delete yoda => delete cascade colt & force
       	jediRepository.delete(yoda);
+      	
        
     }
 
