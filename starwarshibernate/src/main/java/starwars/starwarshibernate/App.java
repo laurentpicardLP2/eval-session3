@@ -1,4 +1,7 @@
 package starwars.starwarshibernate;
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,15 +32,25 @@ public class App implements CommandLineRunner {
         jediRepository.deleteAllInBatch();
 
 
-        Jedi jedi1 = new Jedi("Luc", "Skywalker");
+        Jedi luc = new Jedi("Luc", "Skywalker");
+        Jedi yoda = new Jedi("Maitre", "Yoda");
         
         
-        Arme sabre = new Arme("sabre laser", 52, jedi1);
-        
-        jedi1.addArme(sabre);
-        
-        jediRepository.save(jedi1);
+        Arme sabre = new Arme("sabre laser", 52, luc);
+        luc.addArme(sabre);
+        jediRepository.save(luc);
         armeRepository.save(sabre);
+        
+        Arme colt = new Arme("colt", 34, yoda);
+        Arme force = new Arme("force", 100, yoda);
+        Collection<Arme> armes_yoda = Arrays.asList(colt, force);
+		yoda.addArmes(armes_yoda);
+        jediRepository.save(yoda);
+        armeRepository.saveAll(armes_yoda);
+        
+        //delete yoda => delete cascade colt & force
+      	jediRepository.delete(yoda);
+       
     }
 
 }

@@ -10,20 +10,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
 @Table(name = "Jedi")
 public class Jedi implements Serializable{
 
-	private static final long serialVersionUID = -3777855243906542174L;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "Jedi_ID")
+	private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JoinColumn(name = "Jedi_ID")
 	private Integer id;
 	
 	@Size(max = 30)
@@ -35,11 +39,12 @@ public class Jedi implements Serializable{
 	private String firstname;
 	
 	@OneToMany(mappedBy="jedi")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Set<Arme> armes = new HashSet<Arme>();
 	
 	public Jedi() {
 		
-	}	
+	}
 
 	public Jedi(String name, String firstname) {
 		this.name = name;

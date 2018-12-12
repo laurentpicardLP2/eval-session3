@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 @Entity
 @Table(name = "Armes")
 public class Arme implements Serializable {
@@ -36,7 +37,8 @@ public class Arme implements Serializable {
     
     @ManyToOne
 	@JoinColumn(name="Jedi_ID")
-	private Jedi jedi;
+    private Jedi jedi;
+
     
     public Arme() {
 
