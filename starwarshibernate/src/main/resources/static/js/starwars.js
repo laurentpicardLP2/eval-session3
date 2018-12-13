@@ -29,6 +29,26 @@ $(document).ready(function(){
 				document.getElementById("checkboxes-0").value = "true";
 			}
 		}
+		
+		//Remplissage check box
+		document.getElementById("checkboxes-0").checked = false;
+        document.getElementById("checkboxes-1").checked = false;
+        document.getElementById("checkboxes-2").checked = false;
+
+        for (var i = 0; i < armes.length; i++) {
+            option = document.createElement("option");
+            option.textContent = armes[i].model;
+            listeDeroulante.appendChild(option);
+            if (armes[i].model == "sabre laser"){
+                document.getElementById("checkboxes-0").checked = true;
+            }
+            if (armes[i].model == "colt"){
+                document.getElementById("checkboxes-1").checked = true;
+            }
+            if (armes[i].model == "force"){
+                document.getElementById("checkboxes-2").checked = true;
+            }
+        }
 	} );
 	
 	//Remplissage check box
@@ -47,7 +67,8 @@ $(document).ready(function(){
 	
 	//click sur Supprimer
 	$("#btn-delete").click(function() {
-		supprimerJedi(table); 		
+		supprimerJedi(table);
+		resetForm();
 	});
 	
 	//click sur Reset
@@ -164,7 +185,7 @@ function ajouterJedi(button, httpVerb, table) {
 	
 	// si c'est une modification, on passe l'identifiant
 	if(httpVerb == "PUT")
-		url += "/" + "prenom="+prenom+"&nom="+nom+"&id="+id;
+		url += "/" + "prenom="+prenom+"&nom="+nom+"&id="+id+"&sabre laser="+isSabre+"&colt="+isColt+"&force="+isForce;
 	
 	if(httpVerb == "GET")
 		url += "/" + "prenom="+prenom+"&nom="+nom+"&sabre laser="+isSabre+"&colt="+isColt+"&force="+isForce;
@@ -200,8 +221,26 @@ function ajouterJedi(button, httpVerb, table) {
 	
 	// on recharge les données via la méthode reload()
 	setTimeout( function () {
-	    table.ajax.reload();
-	}, 1000 ); 
+        table.ajax.reload();
+        document.getElementById("checkboxes-0").checked = false;
+        document.getElementById("checkboxes-1").checked = false;
+        document.getElementById("checkboxes-2").checked = false;
+
+        for (var i = 0; i < armes.length; i++) {
+            option = document.createElement("option");
+            option.textContent = armes[i].model;
+            listeDeroulante.appendChild(option);
+            if (armes[i].model == "sabre laser"){
+                document.getElementById("checkboxes-0").checked = true;
+            }
+            if (armes[i].model == "colt"){
+                document.getElementById("checkboxes-1").checked = true;
+            }
+            if (armes[i].model == "force"){
+                document.getElementById("checkboxes-2").checked = true;
+            }
+        }
+	}, 500 ); 
 }
 
 
@@ -230,12 +269,15 @@ function supprimerJedi(table) {
     // on recharge les données via la méthode reload()
 	setTimeout( function () {
 	    table.ajax.reload();
-	}, 1000 ); 
+	}, 500 ); 
 }
 
 
 function resetForm() {
 	$('#jedi-form')[0].reset();
 	$("#listeDeroulanteArme").children().remove(); 
+	document.getElementById("checkboxes-0").checked = false;
+    document.getElementById("checkboxes-1").checked = false;
+    document.getElementById("checkboxes-2").checked = false;
 
 }

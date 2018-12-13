@@ -3,6 +3,8 @@ package starwars.starwarshibernate.controleur;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,7 +108,14 @@ public class JediControleur {
         String nom ="";
         Long id = 0L;
 		
-		String[] parts = newData.split("&");
+        Arme sabre = null;
+        Arme force = null;
+        Arme colt = null;
+
+        Optional<Jedi> jedi = null;
+
+
+        String[] parts = newData.split("&");
         for (String part : parts) {
             String[] subParts = part.split("=");
             if(subParts[0].equals("prenom")) {
@@ -115,10 +124,24 @@ public class JediControleur {
                 nom = subParts[1];
             } else if(subParts[0].equals("id")) {
                 id = Long.parseLong(subParts[1]);
-            }
+                jedi = jediRepo.findById(id);
+                Set<Arme> armesOfJedi = jediRepo.findById(id).get().getArmes();
+                armeRepo.deleteAll(armesOfJedi);
+            } else {
+                if(subParts[0].equals("sabre laser")  && subParts[1].equals("true")) {
+                    sabre = new Arme("sabre laser", 52, jedi.get());
+                    armeRepo.save(sabre);
+                } 
+                if(subParts[0].equals("force")  && subParts[1].equals("true")) {
+                    force = new Arme("force", 100, jedi.get());
+                    armeRepo.save(force);
+                }
+                if(subParts[0].equals("colt")  && subParts[1].equals("true")){
+                    colt = new Arme("colt", 34, jedi.get());
+                    armeRepo.save(colt);
+               }
+            } 
         }
-        
-        Optional<Jedi> jedi = jediRepo.findById(id);
 		
 		if((prenom == null) || (prenom.isEmpty())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Il manque le prénom !");
