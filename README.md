@@ -13,8 +13,8 @@ Un double click sur un Jedi dans le tableau affiche ses caractéristiques dans l
 
 # UML
 
-!(umlSession3.JPG)
+![UML](umlSession3.JPG)
 
 # Maquette
 
-!(Maquette.png)
+![Maquette](Maquette.png)
