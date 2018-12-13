@@ -10,5 +10,5 @@ import starwars.starwarshibernate.model.Jedi;
 @Repository
 public interface JediRepository extends JpaRepository<Jedi, Long>{
 
-	public List<Jedi> findByName(String nom);
+	public List<Jedi> findByPrenom(String prenom);
 }

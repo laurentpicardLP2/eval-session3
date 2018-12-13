@@ -21,9 +21,9 @@
 								<h1></h1>
 							</header>
 							<hr>
-							<div class="row justify-content-center">
-							<article class="col-sm-8" id="apprenantDetail">
 
+							<div class="row justify-content-center">
+							<article class="col-sm-6" id="jediDetail">
 								<form class="form-horizontal" id="jedi-form">
 								<fieldset>
 									<div class="form-group text-center">
@@ -43,27 +43,43 @@
 									</div>
 									<div class="form-group form-group-lg">
 										<div class="col-sm-12">
-											<select class="form-control" name="armes" size="1">
-								    			<option value="arme1" text="Arme1">
-													<option value="arme2" text="Arme2">
-								    	</select>
+											<select id="listeDeroulanteArme" class="form-control" name="armes" size="1">
+											<option value="" disabled selected>Armes</option>
+											</select>
 										</div>
 									</div>
 								</fieldset>
 								</form>
+							</article>
 
+
+
+							<article class="col-sm-6" id="jediDetail">
+								<!-- Multiple Checkboxes -->
+								<div class="form-group">
+								  <div class="col-md-12" id="checkboxes">
+										
+									  
+
+								  </div>
+								</div>
+							</article>
+						</div>
+
+							<div class="row justify-content-center">
 								<div class="form-group">
 									<div class="col-sm-12">
-										<button id="btn-get" class="btn btn-outline-dark" title="Rechercher" >Rechercher</button>
 										<button id="btn-post" class="btn btn-outline-dark" title="Ajouter">Ajouter</button>
 										<button id="btn-put" class="btn btn-outline-dark" title="Modifier">Modifier</button>
 										<button id="btn-delete" class="btn btn-outline-dark" title="Supprimer">Supprimer</button>
+										<button id="btn-reset" class="btn btn-outline-dark" title="Reset">Reset</button>
 									</div>
 									<br>
 								</div>
-							</article>
 							</div>
-							<div id="feedbackapprenant"></div>
+
+
+							<!--  <div id="resultat"></div> -->
 
 							<article class="col-sm-12" id="jediList">
 								<table id="jediTable" class="display">
@@ -72,15 +88,13 @@
 											<th>id</th>
 											<th>prénom</th>
 											<th>nom</th>
-											<th>armes</th>
-											<th>puissance</th>
 										</tr>
 									</thead>
 								</table>
 							</article>
 						</section>
 
-						<footer id="footer" class="container">
+						<footer id="footer" class="container fixed-bottom">
 							<p>
 								Laurent et Cédric - 2018
 							</p>

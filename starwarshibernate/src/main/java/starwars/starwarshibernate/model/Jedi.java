@@ -28,15 +28,15 @@ public class Jedi implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JoinColumn(name = "Jedi_ID")
-	private Integer id;
+	private Long id;
 	
 	@Size(max = 30)
-	@Column(name = "Name")
-	private String name;
+	@Column(name = "Nom")
+	private String nom;
 	
 	@Size(max = 30)
-	@Column(name = "Firstname")
-	private String firstname;
+	@Column(name = "Prenom")
+	private String prenom;
 	
 	@OneToMany(mappedBy="jedi")
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -46,34 +46,34 @@ public class Jedi implements Serializable{
 		
 	}
 
-	public Jedi(String name, String firstname) {
-		this.name = name;
-		this.firstname = firstname;
+	public Jedi(String prenom, String nom) {
+		this.nom = nom;
+		this.prenom = prenom;
 		this.armes = new HashSet<Arme>();
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNom() {
+		return nom;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getPrenom() {
+		return prenom;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
 	}
 
 	public Set<Arme> getArmes() {
@@ -94,16 +94,17 @@ public class Jedi implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Jedi [id=" + id + ", name=" + name + ", firstname=" + firstname + "]";
+		return "Jedi [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", armes=" + armes + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+		result = prime * result + ((armes == null) ? 0 : armes.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
+		result = prime * result + ((prenom == null) ? 0 : prenom.hashCode());
 		return result;
 	}
 
@@ -116,21 +117,28 @@ public class Jedi implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Jedi other = (Jedi) obj;
-		if (firstname == null) {
-			if (other.firstname != null)
+		if (armes == null) {
+			if (other.armes != null)
 				return false;
-		} else if (!firstname.equals(other.firstname))
+		} else if (!armes.equals(other.armes))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (nom == null) {
+			if (other.nom != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!nom.equals(other.nom))
+			return false;
+		if (prenom == null) {
+			if (other.prenom != null)
+				return false;
+		} else if (!prenom.equals(other.prenom))
 			return false;
 		return true;
-	}	
+	}
+
+	
 }

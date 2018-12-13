@@ -29,13 +29,15 @@ public class App implements CommandLineRunner {
     public void run(String... args) throws Exception {
     	
         // Clean up database tables
-        armeRepository.deleteAllInBatch();;
-        jediRepository.deleteAllInBatch();
+        armeRepository.deleteAll();;
+        jediRepository.deleteAll();
         
 
 
         Jedi luc = new Jedi("Luc", "Skywalker");
         Jedi yoda = new Jedi("Maitre", "Yoda");
+        Jedi leia = new Jedi("Leia", "Skywalker");
+        Jedi anakin = new Jedi("Anakin", "Skywalker");
         
         
         Arme sabre = new Arme("sabre laser", 52, luc);
@@ -49,10 +51,9 @@ public class App implements CommandLineRunner {
 		yoda.addArmes(armes_yoda);
         jediRepository.save(yoda);
         armeRepository.saveAll(armes_yoda);
+        jediRepository.save(leia);      	
+        jediRepository.save(anakin);
         
-        //delete yoda => delete cascade colt & force
-      	jediRepository.delete(yoda);
-      	
        
     }
 
