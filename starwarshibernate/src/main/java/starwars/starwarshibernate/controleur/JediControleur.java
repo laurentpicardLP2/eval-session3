@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import starwars.starwarshibernate.model.Arme;
+import starwars.starwarshibernate.model.Categorie;
 import starwars.starwarshibernate.model.Jedi;
 import starwars.starwarshibernate.repository.ArmeRepository;
+import starwars.starwarshibernate.repository.CategorieRepository;
 import starwars.starwarshibernate.repository.JediRepository;
 
 @RestController
@@ -28,6 +30,9 @@ public class JediControleur {
 	
 	@Autowired
 	private ArmeRepository armeRepo;
+	
+	@Autowired
+	private CategorieRepository categorieRepo;
 	
 	/**
 	 * Retourner tous les jedis
@@ -45,18 +50,18 @@ public class JediControleur {
 	}
 	
 	/**
-	 * Retourner toutes les armes
+	 * Retourner toutes les categories d'armes
 	 */
-	@GetMapping("/armes")
+	@GetMapping("/categories")
 	public ResponseEntity<?> getAllArmes(){
-		List<Arme> listeArmes = null;
+		List<Categorie> listeCategories = null;
 		try {
-			listeArmes = armeRepo.findAll(); // Pour faire un "SELECT * FROM armes;"
+			listeCategories = categorieRepo.findAll(); // Pour faire un "SELECT * FROM categorie;"
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(listeArmes);
+		return ResponseEntity.status(HttpStatus.OK).body(listeCategories);
 	}
 	
 	/**

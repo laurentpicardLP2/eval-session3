@@ -1,7 +1,12 @@
+var categories; // recense les différentes catégories d'armes
+
 $(document).ready(function(){
 	
 	// appelle la méthode pour charger la base données dans la datatable
 	loadDatatable();
+	//Remplissage check box
+	loadCheckboxes();
+	
 	
 	// déclaration d'une variable table;
 	var table = $('#jediTable').DataTable();
@@ -9,6 +14,7 @@ $(document).ready(function(){
 	//Double click sur une ligne
 	$('#jediTable tbody').on( 'dblclick', 'tr', function () {
 	    let dataRow = table.row( this ).data();
+	    console.log(dataRow);
 	    $("#id").val(dataRow.id);
 		$("#prenom").val(dataRow.prenom);
 		$("#nom").val(dataRow.nom);
@@ -21,29 +27,27 @@ $(document).ready(function(){
 		var armes = dataRow.armes;			
 		var option = "";
 		
-		//Remplissage check box
-		document.getElementById("checkboxes-0").checked = false;
-        document.getElementById("checkboxes-1").checked = false;
-        document.getElementById("checkboxes-2").checked = false;
+		//alert("listeCategories = " + listeCategories);
+		
+		//Réinitialisation des check box
+		for(var i = 0; i < categories.length ; i++){
+			document.getElementById("checkboxes-" + i).checked = false;
+		}
 
+		console.log(categories);
+		console.log(armes);
         for (var i = 0; i < armes.length; i++) {
             option = document.createElement("option");
             option.textContent = armes[i].model;
             listeDeroulante.appendChild(option);
-            if (armes[i].model == "sabre laser"){
-                document.getElementById("checkboxes-0").checked = true;
-            }
-            if (armes[i].model == "colt"){
-                document.getElementById("checkboxes-1").checked = true;
-            }
-            if (armes[i].model == "force"){
-                document.getElementById("checkboxes-2").checked = true;
+            
+            for(var j = 0; j < categories.length; j++) {
+            	if (armes[i].model == categories[j].description){
+                    document.getElementById("checkboxes-" + j).checked = true;
+                }
             }
         }
 	} );
-	
-	//Remplissage check box
-	loadCheckboxes();	
 	
 	
 	//Click sur Ajouter
@@ -108,31 +112,28 @@ function loadDatatable() {
 
 
 function loadCheckboxes() {
-	
 	// on lance la méthode ajax pour faire le lien avec les méthodes back du constructeur
 	$.ajax({
 		type : "GET",						    // méthode GET
 		contentType : "application/json",		// type de données
-		url : "/jedi/armes",				        // url destinatrice
+		url : "/jedi/categories",				// url destinatrice
 		data : {},		                        // tableau vide pour recevoir la reponse body du controleur
 		dataType : 'json',						// on précise le mode de transfert
 		cache : false,							// pas de cache sollicité
 		timeout : 600000,						// délai d'attente
 		success : function(data) {				// si ok
 
-			
-			
+			categories = data;
 			//Vidage des checkboxes
 			$("#checkboxes").children().remove(); 
 			
 			//Remplissage checkboxes
 			var divCheckboxes = document.getElementById("checkboxes");
-			var armes = data;			
 			var div = "";
 			var label = "";
 			var input = "";
 		
-			for (var i = 0; i < 3; i++) {
+			for (var i = 0; i < categories.length; i++) {
 				div = document.createElement("div");
 				div.className = "form-check";
 				divCheckboxes.appendChild(div);
@@ -145,10 +146,9 @@ function loadCheckboxes() {
 				input.setAttribute("type", "checkbox");
 				div.appendChild(input);
 				div.appendChild(label);
-				label.textContent = armes[i].model;
+				label.textContent = categories[i].description;
 				console.log(document.getElementById("checkboxes-" + i));
 			}
-
 		},
 		error : function(e) {
 			console.log("ERROR : ", e);
@@ -164,23 +164,23 @@ function ajouterJedi(button, httpVerb, table) {
 	var prenom = $("#prenom").val();
 	var nom = $("#nom").val();
 	
-	var isSabre = $('#checkboxes-0').is(':checked');
-	var isColt = $('#checkboxes-1').is(':checked');
-	var isForce = $('#checkboxes-2').is(':checked');
-	
-	console.log($('#checkboxes-0').is(':checked'));
+	var paramCategories = "";
 	
 	
 	// on initialise l'url du back
 	var url = "/jedi/addJedi";
-	
+
+	for(var i = 0; i < categories.length ; i++){
+		paramCategories += "&" + categories[i].description + "=" + $('#checkboxes-' + i).is(':checked');
+	}
+
 	// si c'est une modification, on passe l'identifiant
 	if(httpVerb == "PUT") {
-		url += "/" + "prenom="+prenom+"&nom="+nom+"&id="+id+"&sabre laser="+isSabre+"&colt="+isColt+"&force="+isForce;
+		url += "/" + "prenom="+prenom+"&nom="+nom+"&id="+id+paramCategories;
 	}
 	
 	if(httpVerb == "GET")
-		url += "/" + "prenom="+prenom+"&nom="+nom+"&sabre laser="+isSabre+"&colt="+isColt+"&force="+isForce;
+		url += "/" + "prenom="+prenom+"&nom="+nom+paramCategories;
 	
 	// on désactive le bouton en cours 
 	button.prop("disabled", true);
@@ -215,21 +215,6 @@ function ajouterJedi(button, httpVerb, table) {
 	// on recharge les données via la méthode reload()
 	setTimeout( function () {
         table.ajax.reload();
-       
-      /*  for (var i = 0; i < armes.length; i++) {
-            option = document.createElement("option");
-            option.textContent = armes[i].model;
-            listeDeroulante.appendChild(option);
-            if (armes[i].model == "sabre laser"){
-                document.getElementById("checkboxes-0").checked = true;
-            }
-            if (armes[i].model == "colt"){
-                document.getElementById("checkboxes-1").checked = true;
-            }
-            if (armes[i].model == "force"){
-                document.getElementById("checkboxes-2").checked = true;
-            }
-        }*/
 	}, 500 ); 
 }
 
@@ -266,8 +251,7 @@ function supprimerJedi(table) {
 function resetForm() {
 	$('#jedi-form')[0].reset();
 	$("#listeDeroulanteArme").children().remove(); 
-	document.getElementById("checkboxes-0").checked = false;
-    document.getElementById("checkboxes-1").checked = false;
-    document.getElementById("checkboxes-2").checked = false;
-
+	for(var i = 0; i < categories.length ; i++){
+		document.getElementById("checkboxes-" + i).checked = false;
+	}
 }
