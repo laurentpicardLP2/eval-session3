@@ -146,7 +146,7 @@ function loadCheckboxes() {
 				input.setAttribute("type", "checkbox");
 				div.appendChild(input);
 				div.appendChild(label);
-				label.textContent = categories[i].description;
+				label.textContent = categories[i].description + " (puissance : " + categories[i].puissance + ")";
 				console.log(document.getElementById("checkboxes-" + i));
 			}
 		},
@@ -215,7 +215,7 @@ function ajouterJedi(button, httpVerb, table) {
 	// on recharge les données via la méthode reload()
 	setTimeout( function () {
         table.ajax.reload();
-	}, 500 ); 
+	}, 300 ); 
 }
 
 
@@ -244,7 +244,7 @@ function supprimerJedi(table) {
     // on recharge les données via la méthode reload()
 	setTimeout( function () {
 	    table.ajax.reload();
-	}, 500 ); 
+	}, 300 ); 
 }
 
 
