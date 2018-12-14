@@ -31,6 +31,8 @@ public class Categorie implements Serializable {
     @Column(name = "Description")
     private String description;
     
+    @Column(name = "Puissance")
+    private int puissance;
     
 
 	public Categorie() {
@@ -38,9 +40,10 @@ public class Categorie implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Categorie(String description) {
+	public Categorie(String description, int puissance) {
 		super();
 		this.description = description;
+		this.puissance = puissance;
 	}
 
 	public Long getId() {
@@ -59,12 +62,26 @@ public class Categorie implements Serializable {
 		this.description = description;
 	}
 
+	public int getPuissance() {
+		return puissance;
+	}
+
+	public void setPuissance(int puissance) {
+		this.puissance = puissance;
+	}
+
+	@Override
+	public String toString() {
+		return "Categorie [id=" + id + ", description=" + description + ", puissance=" + puissance + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + puissance;
 		return result;
 	}
 
@@ -87,15 +104,10 @@ public class Categorie implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (puissance != other.puissance)
+			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "CategorieArme [id=" + id + ", description=" + description + "]";
-	}
-	
-	
     
     
 }

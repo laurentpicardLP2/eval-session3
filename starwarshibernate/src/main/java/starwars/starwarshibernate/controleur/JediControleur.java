@@ -83,15 +83,12 @@ public class JediControleur {
                 nom = subParts[1];
                 newJedi = new Jedi(prenom, nom);
             } else {
-                if(subParts[0].equals("sabre laser")  && subParts[1].equals("true")) {
-                    armes.add(new Arme("sabre laser", 52, newJedi));
-                } 
-                if(subParts[0].equals("force")  && subParts[1].equals("true")) {
-                    armes.add(new Arme("force", 100, newJedi));
-                }
-                if(subParts[0].equals("colt")  && subParts[1].equals("true")){
-                    armes.add(new Arme("colt", 34, newJedi));
-                }
+            	
+            	for(Categorie categorie : categorieRepo.findAll()) {
+            		if(subParts[0].equals(categorie.getDescription())  && subParts[1].equals("true")) {
+            			armes.add(new Arme(categorie.getDescription(), categorie.getPuissance(), newJedi));
+            		}
+            	}
             }
         }
 
@@ -113,10 +110,6 @@ public class JediControleur {
         String nom ="";
         Long id = 0L;
 		
-        Arme sabre = null;
-        Arme force = null;
-        Arme colt = null;
-
         Optional<Jedi> jedi = null;
 
         String[] parts = newData.split("&");
@@ -137,21 +130,13 @@ public class JediControleur {
                 jedi.get().removeArmes(armesOfJedi);
                 
             } else {
-                if(subParts[0].equals("sabre laser")  && subParts[1].equals("true")) {
-                    sabre = new Arme("sabre laser", 52, jedi.get());
-                    jedi.get().addArme(sabre);
-                    armeRepo.save(sabre);
-                } 
-                if(subParts[0].equals("force")  && subParts[1].equals("true")) {
-                    force = new Arme("force", 100, jedi.get());
-                    jedi.get().addArme(force);
-                   armeRepo.save(force);
-                }
-                if(subParts[0].equals("colt")  && subParts[1].equals("true")){
-                    colt = new Arme("colt", 34, jedi.get());
-                    jedi.get().addArme(colt);
-                    armeRepo.save(colt);
-               }
+            	for(Categorie categorie : categorieRepo.findAll()) {
+            		if(subParts[0].equals(categorie.getDescription())  && subParts[1].equals("true")) {
+            			Arme arme = new Arme(categorie.getDescription(), categorie.getPuissance(), jedi.get());
+            			jedi.get().addArme(arme);
+                        armeRepo.save(arme);
+            		}
+            	}
             } 
         }
                 

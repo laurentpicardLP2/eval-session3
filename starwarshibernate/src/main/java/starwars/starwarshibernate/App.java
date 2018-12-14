@@ -59,9 +59,9 @@ public class App implements CommandLineRunner {
         jediRepository.save(leia);      	
         jediRepository.save(anakin);
         
-        List <String> categories = Arrays.asList("sabre laser", "force","colt");
-        for(String categorie : categories) {
-        	categorieRepository.save(new Categorie(categorie));
+        List <Categorie> categories = Arrays.asList(new Categorie("sabre laser", 52), new Categorie("force", 100),new Categorie("colt", 34));
+        for(Categorie categorie : categories) {
+        	categorieRepository.save(categorie);
         }
         
         
