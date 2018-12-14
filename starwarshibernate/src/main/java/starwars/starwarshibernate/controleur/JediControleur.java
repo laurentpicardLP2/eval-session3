@@ -114,7 +114,6 @@ public class JediControleur {
 
         Optional<Jedi> jedi = null;
 
-
         String[] parts = newData.split("&");
         for (String part : parts) {
             String[] subParts = part.split("=");
@@ -125,29 +124,39 @@ public class JediControleur {
             } else if(subParts[0].equals("id")) {
                 id = Long.parseLong(subParts[1]);
                 jedi = jediRepo.findById(id);
-                Set<Arme> armesOfJedi = jediRepo.findById(id).get().getArmes();
-                armeRepo.deleteAll(armesOfJedi);
+                
+                Set<Arme> armesOfJedi = jediRepo.findById(id).get().getArmes();           
+                for(Arme arme : armesOfJedi) {
+                 		 armeRepo.deleteById(arme.getId());
+                }
+                jedi.get().removeArmes(armesOfJedi);
+                
             } else {
                 if(subParts[0].equals("sabre laser")  && subParts[1].equals("true")) {
                     sabre = new Arme("sabre laser", 52, jedi.get());
+                    jedi.get().addArme(sabre);
                     armeRepo.save(sabre);
                 } 
                 if(subParts[0].equals("force")  && subParts[1].equals("true")) {
                     force = new Arme("force", 100, jedi.get());
-                    armeRepo.save(force);
+                    jedi.get().addArme(force);
+                   armeRepo.save(force);
                 }
                 if(subParts[0].equals("colt")  && subParts[1].equals("true")){
                     colt = new Arme("colt", 34, jedi.get());
+                    jedi.get().addArme(colt);
                     armeRepo.save(colt);
                }
             } 
         }
+                
 		
 		if((prenom == null) || (prenom.isEmpty())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Il manque le prénom !");
 		}
 		else {
 			jedi.get().setPrenom(prenom);
+			
 		}				
 		
 		if((nom == null) || (nom.isEmpty())) {
@@ -158,6 +167,7 @@ public class JediControleur {
 		}	
 		
 		try {
+		
 			resultJedi = jediRepo.save(jedi.get());
 			
 		} catch (Exception e) {

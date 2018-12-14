@@ -91,6 +91,14 @@ public class Jedi implements Serializable{
 	public boolean addArme(Arme newArme) {
 		return this.armes.add(newArme);
 	}
+	
+	public boolean removeArmes(Collection<Arme> removeArmes) {
+		return this.armes.removeAll(removeArmes);
+	}
+	
+	public boolean removeArme(Arme removeArme) {
+		return this.armes.remove(removeArme);
+	}
 
 	@Override
 	public String toString() {

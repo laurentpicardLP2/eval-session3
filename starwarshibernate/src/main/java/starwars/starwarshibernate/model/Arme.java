@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "Armes")
@@ -61,8 +63,28 @@ public class Arme implements Serializable {
     public int getPuissance() {
         return puissance;
     }
+    @JsonIgnore
+    public Jedi getJedi() {
+		return jedi;
+	}
 
-    @Override
+	public void setJedi(Jedi jedi) {
+		this.jedi = jedi;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public void setPuissance(int puissance) {
+		this.puissance = puissance;
+	}
+
+	@Override
     public String toString() {
         return "Arme [id=" + id + ", model=" + model + ", puissance=" + puissance + "]";
     }
