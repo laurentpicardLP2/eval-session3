@@ -105,7 +105,7 @@ public class JediControleur {
 	@PutMapping(value = "/addJedi/{newData}")
 	public ResponseEntity<?> updateApprenant(@PathVariable String newData) throws Exception {
 		Jedi resultJedi = null;
-		
+		ArrayList<Arme> armes = new ArrayList<Arme>();
         String prenom = "";
         String nom ="";
         Long id = 0L;
@@ -132,14 +132,13 @@ public class JediControleur {
             } else {
             	for(Categorie categorie : categorieRepo.findAll()) {
             		if(subParts[0].equals(categorie.getDescription())  && subParts[1].equals("true")) {
-            			Arme arme = new Arme(categorie.getDescription(), categorie.getPuissance(), jedi.get());
-            			jedi.get().addArme(arme);
-                        armeRepo.save(arme);
+            			armes.add(new Arme(categorie.getDescription(), categorie.getPuissance(), jedi.get()));
             		}
             	}
             } 
         }
-                
+        
+        armeRepo.saveAll(armes);
 		
 		if((prenom == null) || (prenom.isEmpty())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Il manque le prénom !");
