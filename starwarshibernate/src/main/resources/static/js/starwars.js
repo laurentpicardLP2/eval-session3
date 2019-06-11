@@ -224,7 +224,7 @@ function supprimerJedi(table) {
 
     // on lance la méthode ajax pour faire le lien avec les méthodes back du constructeur
     $.ajax({
-        type : "GET",                            // méthode GET
+        type : "DELETE",                            // méthode GET
         contentType : "application/json",        // type de données
         url : "/jedi/deluser/" + id,                // url destinatrice
         data : {},                                // tableau vide pour recevoir la reponse body du controleur
